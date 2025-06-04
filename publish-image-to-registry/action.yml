@@ -46,6 +46,8 @@ runs:
         labels: ${{ steps.meta.outputs.labels }} 
 
     - name: Generate artifact attestation
+      # only if public repository
+      if: github.repository_visibility == 'public' #not allowed for private repositories
       uses: actions/attest-build-provenance@v2
       with:
         subject-name: ${{inputs.registry}}/${{inputs.image-name}}
