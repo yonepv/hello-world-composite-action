@@ -13,12 +13,28 @@ inputs:
     description: "The token to log in to the container registry"
     required: true
     default: "devCqen"
+  repository:
+    description: "The repository where the image is stored"
+    required: false
+    default: ${{ github.repository }}
+  ref:
+    description: "The ref of the repository where the image is stored"
+    required: false
+    default: ${{ github.ref }}
+  path:
+    description: "The path to the Dockerfile"
+    required: false
+    default: "."
 
 runs:
   using: "composite"
   steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        repository: ${{ inputs.repository }}
+        ref: ${{ inputs.ref }}
+        path: ${{ inputs.path }}
     
     - name: Log in to the Container registry
       #uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772
